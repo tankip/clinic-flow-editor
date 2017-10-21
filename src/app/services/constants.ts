@@ -8,6 +8,6 @@ export class Constants {
 
     public static readonly TIME_STAMP = 'timestamp';
 
-    public static readonly NODE_BASE_URL = 'https://test2.ampath.or.ke:8010/';
+    public static readonly NODE_BASE_URL = 'http://test2.ampath.or.ke:8010/';
 
 }
