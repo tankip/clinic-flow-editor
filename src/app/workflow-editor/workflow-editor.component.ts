@@ -6,14 +6,6 @@ import { SchemaService } from '../services/schema.service';
 import { SessionStorageService } from '../services/session-storage.service';
 import { Constants } from '../services/constants';
 
-import { AceEditorComponent } from 'ng2-ace-editor';
-
-import 'brace/index';
-import 'brace/mode/json';
-import 'brace/theme/chrome';
-import 'brace/theme/cobalt';
-import 'brace/ext/searchbox';
-
 @Component({
   selector: 'app-workflow-editor',
   templateUrl: './workflow-editor.component.html',

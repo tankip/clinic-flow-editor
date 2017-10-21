@@ -20,6 +20,11 @@ import { SessionService } from './services/session.service';
 import { SchemaService } from './services/schema.service';
 
 import { AceEditorComponent } from 'ng2-ace-editor';
+import 'brace/index';
+import 'brace/mode/json';
+import 'brace/theme/chrome';
+import 'brace/theme/cobalt';
+import 'brace/ext/searchbox';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { TypeaheadModule } from 'ngx-bootstrap';
 import { ClipboardModule } from 'ngx-clipboard';
