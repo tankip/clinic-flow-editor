@@ -24,7 +24,7 @@
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let schema of schemas | paginate: { itemsPerPage: 13, currentPage: page }">
+                <tr *ngFor="let schema of schemas | paginate: { itemsPerPage: 10, currentPage: page }">
                   <td> {{ schema.schema.version }}</td>
                   <td> {{ schema.schema.date_created | date: 'dd/MM/yy hh:mm' }}</td>
                   <td> {{ schema.user }}</td>
