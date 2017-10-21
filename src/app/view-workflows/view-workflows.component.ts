@@ -37,7 +37,7 @@ export class ViewWorkflowsComponent implements OnInit {
   }
 
   public deploySchema(version) {
-    console.log(version);
+    console.log('Version', version);
   }
 
   public logout() {
