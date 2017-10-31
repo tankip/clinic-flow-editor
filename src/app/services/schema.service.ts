@@ -61,8 +61,6 @@ export class SchemaService {
 
   public saveSchema(value) {
 
-    const rschema: BehaviorSubject<any> = new BehaviorSubject<any>([]);
-
     const headers = new Headers({ 'Content-Type': 'application/json' });
     const options = new RequestOptions({ headers: headers });
 
@@ -75,6 +73,18 @@ export class SchemaService {
       }
     });
 
+  }
+
+  public deploySchema(version) {
+
+    const headers = new Headers({ 'Content-Type': 'application/json' });
+    const options = new RequestOptions({ headers: headers });
+    const url =  Constants.CLINIC_FLOW_SERVER + 'deploy-schema';
+
+    return this.http.post(url, version, options)
+    .map((res) => {
+      return res.json();
+    });
   }
 
 }

@@ -31,7 +31,7 @@
                   <td *ngIf="schema.schema.is_deployed"><label class="label label-success">Yes</label></td>
                   <td *ngIf="!schema.schema.is_deployed"><label class="label label-danger">No</label></td>
                   <td>
-                    <a *ngIf="!schema.is_deployed" (click)="editSchema(schema.schema.version)" style="cursor: pointer;" title="Edit Schema"><i class="material-icons">edit</i></a>
+                    <a *ngIf="!schema.schema.is_deployed" (click)="editSchema(schema.schema.version)" style="cursor: pointer;" title="Edit Schema"><i class="material-icons">edit</i></a>
                     <a *ngIf="schema.schema.is_deployed" (click)="editSchema(schema.schema.version)" style="cursor: pointer;" title="View Schema"><i class="material-icons">visibility</i></a>
                     <a (click)="deploySchema(schema.schema.version)" style="cursor: pointer;" title="Deploy Schema"><i class="material-icons">publish</i></a>
                   </td>
