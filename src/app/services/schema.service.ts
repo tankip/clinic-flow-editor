@@ -17,9 +17,9 @@ export class SchemaService {
     this.sUrl = url;
   }
 
-  getAllSchemas() {
+  public getAllSchemas() {
 
-    return this.http.get(Constants.NODE_BASE_URL + 'get-all-schemas')
+    return this.http.get(Constants.CLINIC_FLOW_SERVER + 'get-all-schemas')
       .map((res) => {
         if (res) {
           const results = res.json();
@@ -38,16 +38,16 @@ export class SchemaService {
 
   }
 
-  getUser(uuid) {
+  public getUser(uuid) {
     return this.http.get(this.sUrl + '/ws/rest/v1/user/' + uuid)
     .map(res => {
       return res.json();
     });
   }
 
-  getSchema(version) {
+  public getSchema(version) {
 
-    this.http.get(Constants.NODE_BASE_URL + 'get-schema/' + version)
+    this.http.get(Constants.CLINIC_FLOW_SERVER + 'get-schema/' + version)
       .map((res) => res.json())
       .subscribe((result) => {
         this.schema.next(result);
@@ -59,14 +59,12 @@ export class SchemaService {
 
   }
 
-  saveSchema(value) {
-
-    const rschema: BehaviorSubject<any> = new BehaviorSubject<any>([]);
+  public saveSchema(value) {
 
     const headers = new Headers({ 'Content-Type': 'application/json' });
     const options = new RequestOptions({ headers: headers });
 
-    const url =  Constants.NODE_BASE_URL + 'save-schema';
+    const url =  Constants.CLINIC_FLOW_SERVER + 'save-schema';
 
     return this.http.post(url, value, options)
     .map((res) => {
@@ -75,6 +73,18 @@ export class SchemaService {
       }
     });
 
+  }
+
+  public deploySchema(version) {
+
+    const headers = new Headers({ 'Content-Type': 'application/json' });
+    const options = new RequestOptions({ headers: headers });
+    const url =  Constants.CLINIC_FLOW_SERVER + 'deploy-schema';
+
+    return this.http.post(url, version, options)
+    .map((res) => {
+      return res.json();
+    });
   }
 
 }
