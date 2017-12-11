@@ -2,8 +2,9 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { ViewWorkflowsComponent } from './view-workflows/view-workflows.component';
-import { WorkflowEditorComponent } from './workflow-editor/workflow-editor.component';
 import { LoginComponent } from './login/login.component';
+import { WorkflowBuilderComponent } from './workflow-builder/workflow-builder.component';
+
 import { AuthGuardService } from './services/auth-guard.service';
 
 const appRoutes: Routes = [
@@ -19,7 +20,7 @@ const appRoutes: Routes = [
   },
   {
     path: 'edit/:id',
-    component: WorkflowEditorComponent
+    component: WorkflowBuilderComponent
   },
   {
     path: 'login',

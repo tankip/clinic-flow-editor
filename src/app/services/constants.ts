@@ -10,4 +10,6 @@ export class Constants {
 
     public static readonly CLINIC_FLOW_SERVER = 'https://ngx.ampath.or.ke/clinic-flow-server/';
 
+    public static readonly SERVER_URL = 'https://test2.ampath.or.ke:8443/amrs/ws/rest/v1/';
+
 }

@@ -2,10 +2,6 @@
     margin: auto;
     margin-top: 100px;
 } */
-.btn-primary{
-    padding:10px;
-    margin-bottom:10px;
-}
 
 #create-form{
     height: 500px;
@@ -109,21 +105,4 @@ a{
 .space{
     margin-right:10px;
     margin-left:10px;
-}
-a{
-    cursor: pointer;
-    margin:5px;
-}
- a:hover{
-     color: #01a9ff
- }
- a>i.material-icons.yellow{
-     color:#FFA500 !important;
- }
-
-.material-icons:hover{
-    color:#5cb85c;
-}
-.clinic-header {
-    padding-left: 1%;
 }

@@ -87,4 +87,28 @@ export class SchemaService {
     });
   }
 
+  public retireSchema(id) {
+
+    const headers = new Headers({ 'Content-Type': 'application/json' });
+    const options = new RequestOptions({ headers: headers });
+    const url =  Constants.CLINIC_FLOW_SERVER + 'retire-schema';
+
+    return this.http.post(url, id, options)
+    .map((res) => {
+      return res.json();
+    });
+  }
+
+  public unretireSchema(id) {
+
+    const headers = new Headers({ 'Content-Type': 'application/json' });
+    const options = new RequestOptions({ headers: headers });
+    const url =  Constants.CLINIC_FLOW_SERVER + 'unretire-schema';
+
+    return this.http.post(url, id, options)
+    .map((res) => {
+      return res.json();
+    });
+  }
+
 }
