@@ -61,11 +61,18 @@ export class WorkflowBuilderComponent implements OnInit, OnDestroy {
     });
 
   }
+  exit() {
+
+    this.router.navigate(['/']);
+
+  }
 
   ngOnDestroy() {
     const check = window.confirm('Are you sure you want to exit the editor?');
     if (check === false) {
       this.router.navigate([this.currentUrl]);
+    } else {
+      this.router.navigate(['/']);
     }
     this.subscription.unsubscribe();
   }

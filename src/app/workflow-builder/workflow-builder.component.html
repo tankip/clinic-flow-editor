@@ -10,6 +10,11 @@
   <mat-toolbar color="primary">
     <button mat-icon-button (click)="sidenav.toggle()"><mat-icon class="mat-24" >menu</mat-icon></button>
     <span class="name"><a href="/" style="color: white; text-decoration: none;">Clinic Flow Editor</a></span>
+    <span class="space"></span>
+    <span flex></span>
+    <span class="menu">
+      <button mat-button  (click)="exit()" class="menuItem"><i class="fa fa-mail-reply"></i> Exit</button>
+    </span>
   </mat-toolbar>
   
   <mat-card>
