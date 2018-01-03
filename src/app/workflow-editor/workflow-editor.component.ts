@@ -4,7 +4,10 @@ import { MatSnackBar } from '@angular/material';
 
 import { SchemaService } from '../services/schema.service';
 import { SessionStorageService } from '../services/session-storage.service';
+import { NavigatorService } from '../services/navigator.service';
 import { Constants } from '../services/constants';
+import * as _ from 'lodash';
+import { scheduleMicroTask } from '@angular/core/src/util';
 
 @Component({
   selector: 'app-workflow-editor',
@@ -14,19 +17,47 @@ import { Constants } from '../services/constants';
 export class WorkflowEditorComponent implements OnInit, OnDestroy {
 
   @ViewChild('editor') editor;
-
   public version: number;
   public loadedSchema;
+  public schemInfo;
   public schema;
   public user;
+  public raw;
   private currentUrl: any;
+
+  @Input() set _schema(schema) {
+    if (schema) {
+      schema = JSON.parse(schema);
+      this.loadedSchema = JSON.stringify(schema, null, '\t');
+      this.schemInfo = schema;
+      this.editor.setTheme('cobalt');
+      this.editor.setMode('json');
+      this.editor.setText(this.loadedSchema);
+      this.editor.getEditor().setFontSize(16);
+      this.editor.getEditor().scrollToLine(0);
+      this.editSchema();
+    }
+  }
+
+  @Input() set _raw(schema) {
+    if (schema) {
+      this.raw = schema;
+      this.editor.setTheme('cobalt');
+      this.editor.setMode('json');
+      this.editor.setText(this.raw);
+      this.editor.getEditor().setFontSize(16);
+      this.editor.getEditor().scrollToLine(0);
+      this.viewSchema();
+    }
+  }
 
   constructor(
     private route: ActivatedRoute,
     private schemaService: SchemaService,
+    private navigatorService: NavigatorService,
     private router: Router,
     private snackBar: MatSnackBar,
-    private sessionStorageService: SessionStorageService
+    private sessionStorageService: SessionStorageService,
   ) {
     const credentials = JSON.parse(sessionStorageService.getItem(Constants.USER_KEY));
     this.user = credentials.uuid;
@@ -36,30 +67,9 @@ export class WorkflowEditorComponent implements OnInit, OnDestroy {
 
     this.currentUrl = this.router.url;
 
-    this.route.params.subscribe((params) => {
-      this.version = params['id'];
-    });
-
-    this.schemaService.getSchema(this.version).subscribe((data) => {
-
-      this.loadedSchema = JSON.stringify(data.schema, null, 4);
-      this.schema = data.info;
-      this.editor.setTheme('cobalt');
-      this.editor.setMode('json');
-      this.editor.setText(this.loadedSchema);
-      this.editor.getEditor().setFontSize(16);
-      this.editor.getEditor().scrollToLine(0);
-      this.viewSchema();
-
-    });
-
   }
 
   ngOnDestroy() {
-    const check = window.confirm('Are you sure you want to exit the editor?');
-    if (check === false) {
-      this.router.navigate([this.currentUrl]);
-    }
   }
 
   public editSchema() {
@@ -69,34 +79,43 @@ export class WorkflowEditorComponent implements OnInit, OnDestroy {
 
   public viewSchema() {
     this.editor.getEditor().setOptions({ readOnly: true });
-    this.editor.setTheme('cobalt');
+    this.editor.setTheme('chrome');
+  }
+
+  public viewFullSchema() {
+    this.editor.setText(this.loadedSchema);
+    this.editSchema();
   }
 
   public saveSchema() {
+    if (this.loadedSchema) {
+      const value = JSON.parse(this.editor.getEditor().getValue());
 
-    const value = this.editor.getEditor().getValue();
+     const payload = {
+       name: value.name,
+       creator: this.user,
+       schema: JSON.stringify(value),
+       uuid: value.uuid,
+       description: value.description
+     };
 
-    const payload = {
-      user: this.user,
-      schema: value
-    };
+      const check = window.confirm('Are you sure you want to Save the schema?');
+      if (check === false) {
+        this.router.navigate([this.currentUrl]);
+      } else {
+        this.schemaService.saveSchema(payload).subscribe(success => {
 
-    const check = window.confirm('Are you sure you want to Save the schema?');
-    if (check === false) {
-      this.router.navigate([this.currentUrl]);
+          this.openSnackBar('Schema Saved Successfully');
+          this.editor.setText(JSON.stringify(success.schema, null, '\t'));
+          this.viewSchema();
+          this.router.navigate(['/edit', success.id]);
+
+        }, (err) => {
+          this.openSnackBar('There was an error while saving schema: ' + err);
+        });
+      }
     } else {
-      this.schemaService.saveSchema(payload).subscribe(success => {
-
-        this.version = success.info;
-        this.openSnackBar('Schema Saved Successfully');
-
-        this.editor.setText(JSON.stringify(success.schema, null, 4));
-        this.viewSchema();
-        this.router.navigate(['/edit', this.version]);
-
-      }, (err) => {
-        this.openSnackBar('There was an error while saving schema: ' + err);
-      });
+      this.openSnackBar('You cannot save an empty schema');
     }
 
   }

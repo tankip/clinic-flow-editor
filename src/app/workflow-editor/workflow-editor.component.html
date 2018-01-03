@@ -1,33 +1,24 @@
-<mat-toolbar color="primary">
-  <span class="name">Clinic Flow Editor</span>
-</mat-toolbar>
-<mat-card>
-
-  <div style="background:#ebebeb; padding-top:5px;">
-    
-    <div style="clear:both;" id="label" class="text-center" >
-        <div class="pull-right" style="display:inline-block;">
-          <label class="badge"><b>v{{ version }}</b></label>
-          <a data-toggle="tooltip" title="View Schema" (click)="viewSchema()"><i class="material-icons">visibility</i></a> 
-          <a *ngIf="!schema?.is_deployed" data-toggle="tooltip" title="Edit Schema" (click)="editSchema()"><i class="material-icons">edit</i></a> 
-          <a data-toggle="tooltip" title="Copy" (click)="openSnackBar('Copied to Clipborad')" ngxClipboard [cbContent]="editor.getEditor().getValue()"><i class="material-icons">content_copy</i></a>
-        </div>
-    </div>
-
-    <div style="clear:both;" id="label" class="text-center" >
-      
-      <div style="clear:both;">
-      
-        <ace-editor #editor style="height:70vh; width:100%; overflow:auto;"></ace-editor><br/>
-        <div class="row">
-          <div class="text-center" >
-            <button *ngIf="!schema?.is_deployed" class="btn btn-primary" (click)="saveSchema()">Save</button>
-          </div>
-        </div>
+<div style="background:#ebebeb; padding-top:5px;">
+  
+  <div style="clear:both;" id="label" class="text-center" >
+      <div class="pull-right" style="display:inline-block;">
+        <a data-toggle="tooltip" title="View Schema" (click)="viewSchema()"><i class="material-icons">visibility</i></a>
+        <a data-toggle="tooltip" title="View Full Schema" (click)="viewFullSchema()"><i class="material-icons">code</i></a>
+        <a data-toggle="tooltip" title="Copy" (click)="openSnackBar('Copied to Clipborad')" ngxClipboard [cbContent]="editor.getEditor().getValue()"><i class="material-icons">content_copy</i></a>
       </div>
+  </div>
+
+  <div style="clear:both;" id="label" class="text-center" >
+    
+    <div style="clear:both;">
+    
+      <ace-editor #editor style="height:70vh; width:100%; overflow:auto;" ></ace-editor><br/>
+      
+        <div class="text-center" >
+          <button *ngIf="!schema?.is_deployed" class="btn btn-primary" (click)="saveSchema()">Save</button>
+        </div>
+    
     </div>
   </div>
-  
-</mat-card>
-
+</div>
 

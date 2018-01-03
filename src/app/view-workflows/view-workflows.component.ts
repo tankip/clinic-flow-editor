@@ -3,6 +3,8 @@ import { Router } from '@angular/router';
 import { SchemaService } from '../services/schema.service';
 import { AuthenticationService } from '../services/authentication.service';
 import { MatSnackBar } from '@angular/material';
+import { SessionStorageService } from '../services/session-storage.service';
+import { Constants } from '../services/constants';
 
 @Component({
   selector: 'app-view-workflows',
@@ -15,17 +17,27 @@ export class ViewWorkflowsComponent implements OnInit {
   public page = 1;
   public loggingOut = false;
   public currentUrl;
+  public searchValue = '';
+  public user;
 
   constructor(
     private schemaService: SchemaService,
     private router: Router,
     private snackBar: MatSnackBar,
-    private auth: AuthenticationService
-  ) { }
+    private auth: AuthenticationService,
+    private sessionStorageService: SessionStorageService
+  ) {
+    const credentials = JSON.parse(sessionStorageService.getItem(Constants.USER_KEY));
+    this.user = credentials.uuid;
+  }
 
   ngOnInit() {
     this.getSchemas();
     this.currentUrl = this.router.url;
+  }
+
+  public createSchema() {
+    this.router.navigate(['/edit', 'new']);
   }
 
   public getSchemas() {
@@ -40,9 +52,11 @@ export class ViewWorkflowsComponent implements OnInit {
     this.router.navigate(['/edit', version]);
   }
 
-  public deploySchema(version) {
+  public deploySchema(version, id, uuid) {
     const payload = {
-      version: version
+      version: version,
+      id: id,
+      uuid: uuid
     };
 
     const check = window.confirm('Are you sure you want to DEPLOY this schema?');
@@ -53,6 +67,61 @@ export class ViewWorkflowsComponent implements OnInit {
         if (success) {
           this.getSchemas();
           this.openSnackBar('Schema Deployed Successfully');
+        }
+      });
+    }
+  }
+
+  unpublishSchema(id) {
+    const payload = {
+      id: id
+    };
+
+    const check = window.confirm('Are you sure you want to UNPUBLISH this schema?');
+    if (check === false) {
+      this.router.navigate([this.currentUrl]);
+    } else {
+      this.schemaService.unpublishSchema(payload).subscribe((success) => {
+        if (success) {
+          this.getSchemas();
+          this.openSnackBar('Schema Unpublished Successfully');
+        }
+      });
+    }
+  }
+
+  retireSchema(id) {
+    const payload = {
+      id: id,
+      user: this.user
+    };
+
+    const check = window.confirm('Are you sure you want to RETIRE this schema?');
+    if (check === false) {
+      this.router.navigate([this.currentUrl]);
+    } else {
+      this.schemaService.retireSchema(payload).subscribe((success) => {
+        if (success) {
+          this.getSchemas();
+          this.openSnackBar('Schema Retired Successfully');
+        }
+      });
+    }
+  }
+
+  unretireSchema(id) {
+    const payload = {
+      id: id
+    };
+
+    const check = window.confirm('Are you sure you want to UNRETIRE this schema?');
+    if (check === false) {
+      this.router.navigate([this.currentUrl]);
+    } else {
+      this.schemaService.unretireSchema(payload).subscribe((success) => {
+        if (success) {
+          this.getSchemas();
+          this.openSnackBar('Schema unRetired Successfully');
         }
       });
     }
