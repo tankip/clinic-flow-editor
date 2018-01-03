@@ -71,6 +71,25 @@ export class ViewWorkflowsComponent implements OnInit {
       });
     }
   }
+
+  unpublishSchema(id) {
+    const payload = {
+      id: id
+    };
+
+    const check = window.confirm('Are you sure you want to UNPUBLISH this schema?');
+    if (check === false) {
+      this.router.navigate([this.currentUrl]);
+    } else {
+      this.schemaService.unpublishSchema(payload).subscribe((success) => {
+        if (success) {
+          this.getSchemas();
+          this.openSnackBar('Schema Unpublished Successfully');
+        }
+      });
+    }
+  }
+
   retireSchema(id) {
     const payload = {
       id: id,

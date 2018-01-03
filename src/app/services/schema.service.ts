@@ -85,6 +85,20 @@ export class SchemaService {
     .map((res) => {
       return res.json();
     });
+
+  }
+
+  public unpublishSchema(id) {
+
+    const headers = new Headers({ 'Content-Type': 'application/json' });
+    const options = new RequestOptions({ headers: headers });
+    const url =  Constants.CLINIC_FLOW_SERVER + 'unpublish-schema';
+
+    return this.http.post(url, id, options)
+    .map((res) => {
+      return res.json();
+    });
+
   }
 
   public retireSchema(id) {

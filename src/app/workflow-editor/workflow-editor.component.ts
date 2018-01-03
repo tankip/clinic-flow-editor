@@ -95,7 +95,8 @@ export class WorkflowEditorComponent implements OnInit, OnDestroy {
        name: value.name,
        creator: this.user,
        schema: JSON.stringify(value),
-       uuid: value.uuid
+       uuid: value.uuid,
+       description: value.description
      };
 
       const check = window.confirm('Are you sure you want to Save the schema?');

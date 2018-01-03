@@ -121,6 +121,7 @@ export class NavigatorComponent implements OnInit {
     const newP = {
       uuid: this.newProgram.uuid,
       name: this.newProgram.display,
+      description: this.newProgram.description,
       dataDependencies: [],
       incompatibleWith: [],
       visitTypes: []
@@ -144,12 +145,11 @@ export class NavigatorComponent implements OnInit {
       this.openSnackBar('Program Already Exists');
     } else {
       const newP = {
-        [this.newProgram.uuid] : {
-          name: this.newProgram.display,
-          dataDependencies: [],
-          incompatibleWith: [],
-          visitTypes: []
-        }
+        uuid: this.newProgram.uuid,
+        name: this.newProgram.display,
+        dataDependencies: [],
+        incompatibleWith: [],
+        visitTypes: []
       };
       this.navigatorService.setNewSchema(this.schema, newP);
       this.modalRef.hide();

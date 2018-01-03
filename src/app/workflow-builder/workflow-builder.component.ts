@@ -47,7 +47,6 @@ export class WorkflowBuilderComponent implements OnInit, OnDestroy {
         this.version = uuid;
         this.schemaService.getSchema(this.version).subscribe((data) => {
           this.navigatorService.setSchema(data.schema);
-          this.navigatorService.setSchemaInfo(data);
         });
       }
     });

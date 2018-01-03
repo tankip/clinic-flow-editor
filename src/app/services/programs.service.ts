@@ -17,7 +17,7 @@ export class ProgramsService {
   public getAllPrograms() {
 
     const url = this.getUrl();
-    const v = 'custom:(uuid,display)';
+    const v = 'custom:(uuid,display,description)';
 
     const params: URLSearchParams = new URLSearchParams();
     params.set('v', v);
