@@ -18,6 +18,13 @@
         <a class="create" (click)="incompatibleModal(incompatible)"> <i class="fa fa-plus"></i> Add Incompatible Program</a>
         <span style="border-right:1px solid lightgray;"></span>
       </div>
+
+      <div *ngFor="let prog of schemaProgram.program.incompatibleWith; let p= index;">     
+        <label (click)="clickIncompatible(p)" class="element" >{{ prog.display }}</label>
+        <div style="float:right;">
+            <a title="Delete Program"><i class="fa fa-trash-o" (click)="deleteIncompatibleProgram(p)" aria-hidden="true"  style="color:#8b0000"></i></a>
+        </div>
+      </div> 
     </div>  
     
     <hr>

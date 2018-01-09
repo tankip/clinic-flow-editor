@@ -72,6 +72,10 @@ export class NavigatorComponent implements OnInit {
     this.navigatorService.setClickedElementSchema(this.schemaProgram.program);
   }
 
+  public clickIncompatible(incompatible) {
+    this.navigatorService.setClickedElementSchema(this.schemaProgram.program.incompatibleWith[incompatible]);
+  }
+
   public clickVisitType(visitType, visitTypeIndex) {
     this.navigatorService.setClickedElementSchema(this.schemaProgram.program.visitTypes[visitTypeIndex]);
   }
@@ -86,9 +90,8 @@ export class NavigatorComponent implements OnInit {
     this.modalRef = this.modalService.show(programModal);
   }
 
-  public incompatibleModal(incompatible, program) {
+  public incompatibleModal(incompatible) {
     this.modalRef = this.modalService.show(incompatible);
-    this.programKey = program;
   }
 
   public addIncompatible() {
@@ -97,7 +100,13 @@ export class NavigatorComponent implements OnInit {
     if (check) {
       this.openSnackBar('Incompatible Program Already Exists');
     } else {
-      this.schemaProgram.program.incompatibleWith.push(this.newProgram.uuid);
+
+      const program = {
+        display: this.newProgram.display,
+        uuid: this.newProgram.uuid
+      };
+
+      this.schemaProgram.program.incompatibleWith.push(program);
       this.navigatorService.setSchema(this.schema);
       this.openSnackBar('Incompatible Program Added Successfully');
     }
@@ -223,6 +232,16 @@ export class NavigatorComponent implements OnInit {
 
   }
 
+  deleteIncompatibleProgram(pKey) {
+    const check = window.confirm('Are you sure you want to Remove this Program?');
+
+    if (check) {
+      this.schemaProgram.program.incompatibleWith.splice(pKey, 1);
+      this.navigatorService.setSchema(this.schema);
+      this.openSnackBar('Encounter Type Removed Successfully');
+    }
+  }
+
   public openSnackBar(message) {
     this.snackBar.open(message, '', { duration: 2000 });
   }
@@ -230,7 +249,7 @@ export class NavigatorComponent implements OnInit {
   public checkIncompatible() {
     let found;
     for (let i = 0; i < this.schemaProgram.program.incompatibleWith.length; i++) {
-      if (this.schemaProgram.program.incompatibleWith[i] === this.newProgram.uuid) {
+      if (this.schemaProgram.program.incompatibleWith[i].uuid === this.newProgram.uuid) {
         found = true;
         break;
       }
