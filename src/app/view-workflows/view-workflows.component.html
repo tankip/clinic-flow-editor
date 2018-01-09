@@ -61,7 +61,7 @@
                     <a *ngIf="!schema.schema.retired" (click)="deploySchema(schema.schema.version, schema.schema.id, schema.schema.uuid)" style="cursor: pointer; color: #5cb85c;" title="Deploy Schema"><i class="fa fa-upload" aria-hidden="true"></i></a>
                     <a *ngIf="schema.schema.published" (click)="unpublishSchema(schema.schema.id)" style="cursor: pointer;" title="Unpublish Schema"><i style="color: #d9534f;" class="fa fa-ban" aria-hidden="true"></i></a>
                     <a *ngIf="!schema.schema.retired" (click)="retireSchema(schema.schema.id)" style="cursor: pointer;" title="Retire Schema"><i style="color: #d9534f;"  class="fa fa-trash-o"></i></a>
-                    <!-- <a *ngIf="schema.schema.retired" (click)="unretireSchema(schema.schema.id)" style="cursor: pointer;" title="UnRetire Schema"><i class="material-icons">redo</i></a>                     -->
+                    <a *ngIf="schema.schema.retired" (click)="unretireSchema(schema.schema.id)" style="cursor: pointer;" title="UnRetire Schema"><i class="fa fa-repeat"></i></a>
                     
                   </td>
                 </tr>
