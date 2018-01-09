@@ -11,7 +11,7 @@ export class SearchFilterPipe implements PipeTransform {
     }
 
     return workflowSchemas.filter((workflowSchema) => {
-      return workflowSchema.schema.name.toUpperCase().indexOf(searchText.toUpperCase()) > -1;
+      return workflowSchema.name.toUpperCase().indexOf(searchText.toUpperCase()) > -1;
     });
   }
 
