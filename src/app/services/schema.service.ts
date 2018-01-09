@@ -29,27 +29,15 @@ export class SchemaService {
 
   public getAllSchemas() {
 
-    return this.http.get(Constants.CLINIC_FLOW_SERVER + 'get-all-schemas', {headers: this.headers})
+    return this.http.get(Constants.CLINIC_FLOW_SERVER + 'get-all-schemas', { headers: this.headers })
       .map((res) => {
-        if (res) {
-          const results = res.json();
-          const myRes = [];
-          results.forEach(value => {
-            this.getUser(value.created_by).subscribe((response) => {
-              myRes.push({
-                user: response.person.display,
-                schema: value
-              });
-            });
-          });
-          return myRes;
-        }
+        return res.json();
       });
 
   }
 
   public getUser(uuid) {
-    return this.http.get(this.sUrl + '/ws/rest/v1/user/' + uuid, {headers: this.headers})
+    return this.http.get(this.sUrl + '/ws/rest/v1/user/' + uuid, { headers: this.headers })
     .map(res => {
       return res.json();
     });
@@ -57,7 +45,7 @@ export class SchemaService {
 
   public getSchema(version) {
 
-    this.http.get(Constants.CLINIC_FLOW_SERVER + 'get-schema/' + version, {headers: this.headers})
+    this.http.get(Constants.CLINIC_FLOW_SERVER + 'get-schema/' + version, { headers: this.headers })
       .map((res) => res.json())
       .subscribe((result) => {
         this.schema.next(result);

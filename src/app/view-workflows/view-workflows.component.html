@@ -47,21 +47,21 @@
               </thead>
               <tbody *ngIf="schemas">
                 <tr *ngFor="let schema of schemas | searchFilter: searchText | paginate: { itemsPerPage: 10, currentPage: page }">
-                  <td> <b>{{ schema.schema.name }}</b></td>
-                  <td> {{ schema.schema.description }}</td>
-                  <td> {{ schema.schema.version }}</td>
-                  <td> {{ schema.schema.date_created | date: 'dd/MM/yy hh:mm' }}</td>
-                  <td *ngIf="schema.schema.retired"><label class="label label-success">Yes</label></td>
-                  <td *ngIf="!schema.schema.retired"><label class="label label-danger">No</label></td>
-                  <td *ngIf="schema.schema.published"><label class="label label-success">Yes</label></td>
-                  <td *ngIf="!schema.schema.published"><label class="label label-danger">No</label></td>
+                  <td> <b>{{ schema.name }}</b></td>
+                  <td> {{ schema.description }}</td>
+                  <td> {{ schema.version }}</td>
+                  <td> {{ schema.date_created | date: 'dd - MMM - yyyy' }}</td>
+                  <td *ngIf="schema.retired"><label class="label label-success">Yes</label></td>
+                  <td *ngIf="!schema.retired"><label class="label label-danger">No</label></td>
+                  <td *ngIf="schema.published"><label class="label label-success">Yes</label></td>
+                  <td *ngIf="!schema.published"><label class="label label-danger">No</label></td>
                   <td>
-                    <a *ngIf="!schema.schema.published && !schema.schema.retired" (click)="editSchema(schema.schema.id)" style="cursor: pointer;" title="Edit Schema"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
-                    <a *ngIf="schema.schema.published" (click)="editSchema(schema.schema.id)" style="cursor: pointer;" title="View Schema"><i class="fa fa-eye" aria-hidden="true"></i></a>
-                    <a *ngIf="!schema.schema.retired" (click)="deploySchema(schema.schema.version, schema.schema.id, schema.schema.uuid)" style="cursor: pointer; color: #5cb85c;" title="Deploy Schema"><i class="fa fa-upload" aria-hidden="true"></i></a>
-                    <a *ngIf="schema.schema.published" (click)="unpublishSchema(schema.schema.id)" style="cursor: pointer;" title="Unpublish Schema"><i style="color: #d9534f;" class="fa fa-ban" aria-hidden="true"></i></a>
-                    <a *ngIf="!schema.schema.retired" (click)="retireSchema(schema.schema.id)" style="cursor: pointer;" title="Retire Schema"><i style="color: #d9534f;"  class="fa fa-trash-o"></i></a>
-                    <a *ngIf="schema.schema.retired" (click)="unretireSchema(schema.schema.id)" style="cursor: pointer;" title="UnRetire Schema"><i class="fa fa-repeat"></i></a>
+                    <a *ngIf="!schema.published && !schema.retired" (click)="editSchema(schema.id)" style="cursor: pointer;" title="Edit Schema"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                    <a *ngIf="schema.published" (click)="editSchema(schema.id)" style="cursor: pointer;" title="View Schema"><i class="fa fa-eye" aria-hidden="true"></i></a>
+                    <a *ngIf="!schema.retired" (click)="deploySchema(schema.version, schema.id, schema.uuid)" style="cursor: pointer; color: #5cb85c;" title="Deploy Schema"><i class="fa fa-upload" aria-hidden="true"></i></a>
+                    <a *ngIf="schema.published" (click)="unpublishSchema(schema.id)" style="cursor: pointer;" title="Unpublish Schema"><i style="color: #d9534f;" class="fa fa-ban" aria-hidden="true"></i></a>
+                    <a *ngIf="!schema.retired" (click)="retireSchema(schema.id)" style="cursor: pointer;" title="Retire Schema"><i style="color: #d9534f;"  class="fa fa-trash-o"></i></a>
+                    <a *ngIf="schema.retired" (click)="unretireSchema(schema.id)" style="cursor: pointer;" title="UnRetire Schema"><i class="fa fa-repeat"></i></a>
                     
                   </td>
                 </tr>
