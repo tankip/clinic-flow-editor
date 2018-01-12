@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, Output, ViewChild } from '@angular/core';
 import { NavigatorService } from '../services/navigator.service';
 import { ProgramsService } from '../services/programs.service';
+import { LocalStorageService } from '../services/local-storage.service';
 import { VisitService } from '../services/visit.service';
 import { EncounterTypesService } from '../services/encounter-types.service';
 import { BsModalService } from 'ngx-bootstrap/modal';
@@ -50,6 +51,7 @@ export class NavigatorComponent implements OnInit {
     private encounterTypesService: EncounterTypesService,
     private modalService: BsModalService,
     private snackBar: MatSnackBar,
+    private localStorageService: LocalStorageService
   ) { }
 
   ngOnInit() {
@@ -108,6 +110,8 @@ export class NavigatorComponent implements OnInit {
 
       this.schemaProgram.program.incompatibleWith.push(program);
       this.navigatorService.setSchema(this.schema);
+      this.localStorageService.setObject('rawSchema', this.schema);
+      this.localStorageService.setObject('timestamp', Date.now());
       this.openSnackBar('Incompatible Program Added Successfully');
     }
 
@@ -144,26 +148,10 @@ export class NavigatorComponent implements OnInit {
     //   }
     // };
     this.navigatorService.setNewSchema(this.schema, newP);
+    this.localStorageService.setObject('rawSchema', this.schema);
+    this.localStorageService.setObject('timestamp', Date.now());
     this.modalRef.hide();
     this.openSnackBar('Program Added Successfully');
-  }
-
-  public submitProgram() {
-    const check = this.checkProgram(this.newProgram);
-    if (check) {
-      this.openSnackBar('Program Already Exists');
-    } else {
-      const newP = {
-        uuid: this.newProgram.uuid,
-        name: this.newProgram.display,
-        dataDependencies: [],
-        incompatibleWith: [],
-        visitTypes: []
-      };
-      this.navigatorService.setNewSchema(this.schema, newP);
-      this.modalRef.hide();
-      this.openSnackBar('Program Added Successfully');
-    }
   }
 
   public openVisitModal(visitModal, program) {
@@ -188,6 +176,8 @@ export class NavigatorComponent implements OnInit {
 
       this.schemaProgram.program.visitTypes.push(newVisit);
       this.navigatorService.setSchema(this.schema);
+      this.localStorageService.setObject('rawSchema', this.schema);
+      this.localStorageService.setObject('timestamp', Date.now());
       this.modalRef.hide();
       this.openSnackBar('Visit Type Added Successfully');
     }
@@ -199,6 +189,8 @@ export class NavigatorComponent implements OnInit {
     if (check) {
       this.schemaProgram.program.visitTypes.splice(visitKey, 1);
       this.navigatorService.setSchema(this.schema);
+      this.localStorageService.setObject('rawSchema', this.schema);
+      this.localStorageService.setObject('timestamp', Date.now());
       this.openSnackBar('Visit Type Removed Successfully');
     }
 
@@ -216,6 +208,8 @@ export class NavigatorComponent implements OnInit {
     } else {
       this.schemaProgram.program.visitTypes[this.visitKey].encounterTypes.push(this.newEncounter);
       this.navigatorService.setSchema(this.schema);
+      this.localStorageService.setObject('rawSchema', this.schema);
+      this.localStorageService.setObject('timestamp', Date.now());
       this.modalRef.hide();
       this.openSnackBar('Encounter Type Added Successfully');
     }
@@ -227,6 +221,8 @@ export class NavigatorComponent implements OnInit {
     if (check) {
       this.schemaProgram.program.visitTypes[visitKey].encounterTypes.splice(encounterKey, 1);
       this.navigatorService.setSchema(this.schema);
+      this.localStorageService.setObject('rawSchema', this.schema);
+      this.localStorageService.setObject('timestamp', Date.now());
       this.openSnackBar('Encounter Type Removed Successfully');
     }
 
@@ -238,6 +234,8 @@ export class NavigatorComponent implements OnInit {
     if (check) {
       this.schemaProgram.program.incompatibleWith.splice(pKey, 1);
       this.navigatorService.setSchema(this.schema);
+      this.localStorageService.setObject('rawSchema', this.schema);
+      this.localStorageService.setObject('timestamp', Date.now());
       this.openSnackBar('Encounter Type Removed Successfully');
     }
   }

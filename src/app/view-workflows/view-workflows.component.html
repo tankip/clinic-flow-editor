@@ -3,11 +3,38 @@
   <span class="space"></span>
   <span flex></span>
   <span class="menu">
-    <button mat-button  (click)="createSchema()" class="menuItem"><i class="fa fa-plus"></i> Create New</button>
-    <button mat-button  (click)="logout()" class="menuItem"> <i class="fa fa-sign-out"></i> Sign Out <i [class.fa-spinner]="loggingOut" [class.fa-spin]="loggingOut" class="fa"></i></button>    
+    <button mat-button  (click)="createSchema()" class="menuItem"><i class="fa fa-plus-circle"></i> Create New</button> 
   </span>
+  <span class="fill"></span>
+    <span class="dropdown">
+        <button class="btn btn-info dropdown-toggle" type="button" data-toggle="dropdown">
+        <i class="fa fa-user"></i> {{ user.username }}
+        <span class="caret"></span></button>
+        <ul class="dropdown-menu pull-right">
+          <li><a (click)="logout()"><i class="fa fa-sign-out" style="color:red;"></i> Sign Out
+            <i [class.fa-spinner]="loggingOut" [class.fa-spin]="loggingOut" class="fa"></i></a></li>
+          <li><a href="#"></a></li>
+          <li><a href="#"></a></li>
+        </ul>
+      </span>
 </mat-toolbar>
 <div class="container-f" style="margin-top: 10px;">
+  <div class="restoreMsg">
+    <div *ngIf="draftAvailable">
+      <mat-card>
+        <div style="display: inline-block">
+          <small style="font-size:14px;">
+            <i class="fa fa-exclamation-circle fa-lg"></i>
+            <b> {{restoreMessage}}</b>
+          </small>
+        </div>
+        <div style="display:inline-block" class="pull-right">
+          <button class="btn btn-sm btn-primary" (click)="restore()">Restore</button>
+          <button class="btn btn-sm btn-danger" (click)="discard()">Discard</button>
+        </div>
+      </mat-card>
+    </div>
+  </div>
   <div class="row">
     <div class="col-md-10 col-md-offset-1">
       <div class="panel panel-primary panel-table">
@@ -45,6 +72,15 @@
                   <th width="10%">Actions</th>
                 </tr>
               </thead>
+              <tbody *ngIf="!schemas">
+                <td>Loading Schemas...</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+              </tbody>
               <tbody *ngIf="schemas">
                 <tr *ngFor="let schema of schemas | searchFilter: searchText | paginate: { itemsPerPage: 10, currentPage: page }">
                   <td> <b>{{ schema.name }}</b></td>
@@ -58,8 +94,6 @@
                   <td>
                     <a *ngIf="!schema.published && !schema.retired" (click)="editSchema(schema.id)" style="cursor: pointer;" title="Edit Schema"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
                     <a *ngIf="schema.published" (click)="editSchema(schema.id)" style="cursor: pointer;" title="View Schema"><i class="fa fa-eye" aria-hidden="true"></i></a>
-                    <a *ngIf="!schema.retired" (click)="deploySchema(schema.version, schema.id, schema.uuid)" style="cursor: pointer; color: #5cb85c;" title="Deploy Schema"><i class="fa fa-upload" aria-hidden="true"></i></a>
-                    <a *ngIf="schema.published" (click)="unpublishSchema(schema.id)" style="cursor: pointer;" title="Unpublish Schema"><i style="color: #d9534f;" class="fa fa-ban" aria-hidden="true"></i></a>
                     <a *ngIf="!schema.retired" (click)="retireSchema(schema.id)" style="cursor: pointer;" title="Retire Schema"><i style="color: #d9534f;"  class="fa fa-trash-o"></i></a>
                     <a *ngIf="schema.retired" (click)="unretireSchema(schema.id)" style="cursor: pointer;" title="UnRetire Schema"><i class="fa fa-repeat"></i></a>
                     
