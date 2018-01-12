@@ -20,7 +20,7 @@ const appRoutes: Routes = [
   },
   {
     path: 'edit/:id',
-    component: WorkflowBuilderComponent
+    component: WorkflowBuilderComponent,
   },
   {
     path: 'login',

@@ -5,6 +5,7 @@ import { MatSnackBar } from '@angular/material';
 import { SchemaService } from '../services/schema.service';
 import { SessionStorageService } from '../services/session-storage.service';
 import { NavigatorService } from '../services/navigator.service';
+import { LocalStorageService } from '../services/local-storage.service';
 import { Constants } from '../services/constants';
 import * as _ from 'lodash';
 import { scheduleMicroTask } from '@angular/core/src/util';
@@ -58,6 +59,7 @@ export class WorkflowEditorComponent implements OnInit, OnDestroy {
     private router: Router,
     private snackBar: MatSnackBar,
     private sessionStorageService: SessionStorageService,
+    private localStorageService: LocalStorageService
   ) {
     const credentials = JSON.parse(sessionStorageService.getItem(Constants.USER_KEY));
     this.user = credentials.uuid;
@@ -87,37 +89,10 @@ export class WorkflowEditorComponent implements OnInit, OnDestroy {
     this.editSchema();
   }
 
-  public saveSchema() {
-    if (this.loadedSchema) {
-      const value = JSON.parse(this.editor.getEditor().getValue());
-
-     const payload = {
-       name: value.name,
-       creator: this.user,
-       schema: JSON.stringify(value),
-       uuid: value.uuid,
-       description: value.description
-     };
-
-      const check = window.confirm('Are you sure you want to Save the schema?');
-      if (check === false) {
-        this.router.navigate([this.currentUrl]);
-      } else {
-        this.schemaService.saveSchema(payload).subscribe(success => {
-
-          this.openSnackBar('Schema Saved Successfully');
-          this.editor.setText(JSON.stringify(success.schema, null, '\t'));
-          this.viewSchema();
-          this.router.navigate(['/edit', success.id]);
-
-        }, (err) => {
-          this.openSnackBar('There was an error while saving schema: ' + err);
-        });
-      }
-    } else {
-      this.openSnackBar('You cannot save an empty schema');
-    }
-
+  public saveDraft() {
+    const schema = JSON.parse(this.editor.getEditor().getValue());
+    this.localStorageService.setObject('rawSchema', schema);
+    this.localStorageService.setObject('timestamp', Date.now());
   }
 
   public openSnackBar(message) {

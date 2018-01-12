@@ -122,12 +122,23 @@
 .space{
   margin-left:50px;
 }
-md-card{
+mat-card{
  
     color: #3c763d;
     background-color: #dff0d8;
     border-color: #d6e9c6;
     margin: 5px 5px 5px 50px;
 
+}
+.fill{
+  flex: 1 1 auto;
+}
+.dropdown-menu{
+  color: black;
+  font-family: 'Roboto';
+  font-weight: 500;
+}
+.dropdown-menu>li {
+  margin-left:5px;
 }
 

@@ -1,20 +1,53 @@
+<div *ngIf="loading" id="loadingDiv">
+  <img class="loader" src="./assets/loader.gif">
+</div>
 <mat-sidenav-container>
   
   <mat-sidenav #sidenav mode="over" class="app-sidenav">
-        <mat-card>
-          <app-navigator [_schema]="loadedSchema">
-          </app-navigator>
-        </mat-card>
+    <mat-card>
+      <app-navigator [_schema]="loadedSchema">
+      </app-navigator>
+    </mat-card>
   </mat-sidenav>
   
   <mat-toolbar color="primary">
     <button mat-icon-button (click)="sidenav.toggle()"><mat-icon class="mat-24" >menu</mat-icon></button>
     <span class="name"><a href="/" style="color: white; text-decoration: none;">Clinic Flow Editor</a></span>
     <span class="space"></span>
+    <div class="btn-group show-on-hover">
+      <button mat-button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+        <span class="fb-menu-item">File</span>
+      </button>
+      <ul class="dropdown-menu" role="menu">
+        <li><a (click)="saveLocally()">
+          <span style="font-size:14px;font-weight:500"><i class="glyphicon glyphicon-save" aria-hidden="true"></i> Save Locally</span></a>
+        </li>
+        <li><a (click)="saveSchema()">
+          <span style="margin-top:15px; font-size:14px;font-weight:500"><i class="fa fa-server" aria-hidden="true"></i> Save to Server</span></a>
+        </li>
+      </ul>
+    </div>
+    <div class="btn-group show-on-hover">
+      <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+          <span class="fb-menu-item">User</span>
+      </button>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+            <a>
+                <span class="fa fa-user"></span><span  style="font-size:14px;font-weight:500"> {{ user.username }}</span></a>
+        </li>
+        <li>
+            <a> <i class="fa fa-server"></i><span style="font-size:14px;font-weight:500"></span> {{url}}</a>
+        </li>
+      </ul>
+    </div>
     <span flex></span>
     <span class="menu">
-      <button mat-button  (click)="exit()" class="menuItem"><i class="fa fa-mail-reply"></i> Exit</button>
+      <button mat-button type="button" class="btn btn-default" (click)="exit()"><span class="fb-menu-item"> Exit</span></button>
     </span>
+    <span class="space"></span>
+      <button type="button" *ngIf="!schemaInfo?.published" class="btn btn-info" (click)="publish()"> Publish</button>
+      <button type="button" *ngIf="schemaInfo?.published" class="btn btn-danger" (click)="unpublish()"> Unpublish</button>
   </mat-toolbar>
   
   <mat-card>
